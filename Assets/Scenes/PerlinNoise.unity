@@ -475,6 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47494007e483d4c9e9e21d557faf4655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  greenNumber: 2
   terrainWidth: 128
   terrainHeight: 128
   heightmapResolution: 2049
@@ -492,10 +493,10 @@ MonoBehaviour:
   flagPrefab: {fileID: 1150679316}
   desiredHoleRadius: 1
   holeMargin: 150
+  gradientTextureIntensity: 0.3
   red: {fileID: 8574412962073106934, guid: edc62d8eb3c0240fa9fb5a75635e235f, type: 2}
   green: {fileID: 8574412962073106934, guid: 7f67225728602466095cb991ce4e02c2, type: 2}
   blue: {fileID: 8574412962073106934, guid: 966dcdd13419e48cc936d8bfb1a6d58f, type: 2}
-  lineMaterial: {fileID: 2100000, guid: 616f60ddfd40a4639bec0ba60e81dd7d, type: 2}
 --- !u!154 &987195310
 TerrainCollider:
   m_ObjectHideFlags: 0
