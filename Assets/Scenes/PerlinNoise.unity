@@ -208,13 +208,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282723591}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.29492494, y: -0.621806, z: 0.27278024, w: 0.6722854}
-  m_LocalPosition: {x: 119.4, y: 56.3, z: 61.6}
+  m_LocalRotation: {x: 0.113963045, y: -0.67870086, z: 0.078878276, w: 0.72121835}
+  m_LocalPosition: {x: 106.6, y: 12.1, z: 61.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 47.373, y: -85.532, z: 0}
+  m_LocalEulerAnglesHint: {x: 15.751, y: -86.858, z: -2.437}
 --- !u!1 &461973893
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 987195310}
   - component: {fileID: 987195309}
   m_Layer: 0
-  m_Name: Terrain
+  m_Name: Green1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -475,11 +475,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47494007e483d4c9e9e21d557faf4655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  greenNumber: 2
   terrainWidth: 128
   terrainHeight: 128
   heightmapResolution: 2049
-  scale: 2
+  scale: 1.5
   offsetX: 100
   offsetY: 100
   heightMultiplier: 0.5
@@ -488,12 +487,12 @@ MonoBehaviour:
   greenTexture: {fileID: 8574412962073106934, guid: fc621f9c503894d8c9818d06818a7b17, type: 2}
   greenResolution: 100
   perlinScale: 1.5
-  perlinInfluence: 30
+  perlinInfluence: 35
   pointPrefab: {fileID: 711142084}
   flagPrefab: {fileID: 1150679316}
   desiredHoleRadius: 1
-  holeMargin: 150
-  gradientTextureIntensity: 0.3
+  holeMargin: 15
+  gradientTextureIntensity: 0.4
   red: {fileID: 8574412962073106934, guid: edc62d8eb3c0240fa9fb5a75635e235f, type: 2}
   green: {fileID: 8574412962073106934, guid: 7f67225728602466095cb991ce4e02c2, type: 2}
   blue: {fileID: 8574412962073106934, guid: 966dcdd13419e48cc936d8bfb1a6d58f, type: 2}

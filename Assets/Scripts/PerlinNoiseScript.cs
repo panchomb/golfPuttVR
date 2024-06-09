@@ -43,7 +43,7 @@ public class GolfTerrainGenerator : MonoBehaviour
         offsetY = Random.Range(0f, 9999f);
 
         // Calculate the green radius
-        float halfDimension = Mathf.Min(terrainWidth, terrainHeight) / 2f;
+        float halfDimension = 128 / 2f;
         greenRadius = Random.Range(0.8f * halfDimension, 0.9f * halfDimension);
 
         GenerateTerrain();
@@ -134,12 +134,23 @@ public class GolfTerrainGenerator : MonoBehaviour
                 float scaledHeightValue = (heightValue - minHeight) / (maxHeight - minHeight);
                 // Color gradient from dark blue to bright green
                 Color gradientColor = Color.Lerp(Color.blue, Color.green, scaledHeightValue);
-
-                heightmapColorAlphaMap[y, x, 0] = greenAlphaMap[y, x, 0] * 0.5f; // Rough channel
-                heightmapColorAlphaMap[y, x, 1] = greenAlphaMap[y, x, 1] * 0.5f; // Green channel
-                heightmapColorAlphaMap[y, x, 2] = gradientColor.r * gradientTextureIntensity; // Red channel
-                heightmapColorAlphaMap[y, x, 3] = gradientColor.g * gradientTextureIntensity; // Green channel
-                heightmapColorAlphaMap[y, x, 4] = gradientColor.b * gradientTextureIntensity; // Blue channel
+                bool isGreen = greenAlphaMap[y, x, 1] > 0.5f;
+                if (isGreen)
+                {
+                    heightmapColorAlphaMap[y, x, 0] = greenAlphaMap[y, x, 0] * 0.5f; // Rough channel
+                    heightmapColorAlphaMap[y, x, 1] = greenAlphaMap[y, x, 1] * 0.5f; // Green channel
+                    heightmapColorAlphaMap[y, x, 2] = gradientColor.r * gradientTextureIntensity; // Red channel
+                    heightmapColorAlphaMap[y, x, 3] = gradientColor.g * gradientTextureIntensity; // Green channel
+                    heightmapColorAlphaMap[y, x, 4] = gradientColor.b * gradientTextureIntensity; // Blue channel
+                } 
+                else 
+                {
+                    heightmapColorAlphaMap[y, x, 0] = greenAlphaMap[y, x, 0]; // Rough channel
+                    heightmapColorAlphaMap[y, x, 1] = greenAlphaMap[y, x, 1]; // Green channel
+                    heightmapColorAlphaMap[y, x, 2] = 0; // Red channel
+                    heightmapColorAlphaMap[y, x, 3] = 0; // Green channel
+                    heightmapColorAlphaMap[y, x, 4] = 0; // Blue channel
+                }
             }
         }
     }
