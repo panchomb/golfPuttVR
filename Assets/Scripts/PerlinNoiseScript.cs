@@ -111,13 +111,17 @@ public class GolfTerrainGenerator : MonoBehaviour
                 float xPos = x * (terrainWidth / (float)alphaMapWidth);
                 float yPos = y * (terrainHeight / (float)alphaMapHeight);
                 float heightValue = terrain.SampleHeight(new Vector3(xPos, 0, yPos));
-                if (heightValue < minHeight)
+                bool isGreen = greenAlphaMap[y, x, 1] > 0.5f;
+                if (isGreen)
                 {
-                    minHeight = heightValue;
-                }
-                if (heightValue > maxHeight)
-                {
-                    maxHeight = heightValue;
+                    if (heightValue < minHeight)
+                    {
+                        minHeight = heightValue;
+                    }
+                    if (heightValue > maxHeight)
+                    {
+                        maxHeight = heightValue;
+                    }
                 }
             }
         }
