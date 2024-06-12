@@ -43,7 +43,7 @@ public class GolfTerrainGenerator : MonoBehaviour
         offsetY = Random.Range(0f, 9999f);
 
         // Calculate the green radius
-        float halfDimension = 128 / 2f;
+        float halfDimension = terrainWidth / 2f;
         greenRadius = Random.Range(0.8f * halfDimension, 0.9f * halfDimension);
 
         GenerateTerrain();
