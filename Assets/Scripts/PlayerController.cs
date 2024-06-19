@@ -8,14 +8,14 @@ public class PlayerController : MonoBehaviour
     public GameObject terrain;
     public GameObject golfClub;
     public GameObject golfBall;
+    public Transform clubHead; // Reference to the ClubHead empty GameObject
 
     private Rigidbody golfBallRigidbody;
-    private Rigidbody golfClubRigidbody;
     private Vector3 initialGolfBallPosition;
     private GolfBallCollision golfBallCollisionScript;
-    private Vector3 currentClubPosition;
-    private Vector3 previousClubPosition;
-    private Vector3 clubVelocity;
+    private Vector3 currentClubHeadPosition;
+    private Vector3 previousClubHeadPosition;
+    private Vector3 clubHeadVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -26,13 +26,12 @@ public class PlayerController : MonoBehaviour
 
         float height = terrainComponent.SampleHeight(new Vector3(worldCenterPosition.x, worldCenterPosition.y, worldCenterPosition.z));
         Debug.Log("[DEBUG] height is " + height);
-     
+
         ovrCameraRigInteractions.transform.position = new Vector3(worldCenterPosition.x, height - 0.3f, worldCenterPosition.z);
         golfClub.transform.position = new Vector3(worldCenterPosition.x, height + 5.5f, worldCenterPosition.z);
         golfBall.transform.position = new Vector3(worldCenterPosition.x, height + 1, worldCenterPosition.z);
 
         golfBallRigidbody = golfBall.GetComponent<Rigidbody>();
-        golfClubRigidbody = golfClub.GetComponent<Rigidbody>();
         initialGolfBallPosition = golfBall.transform.position;
 
         // Get the GolfBallCollision script
@@ -51,10 +50,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Manual velocity calculation for kinematic golf club
-        Vector3 currentClubPosition = golfClub.transform.position;
-        clubVelocity = (currentClubPosition - previousClubPosition) / Time.fixedDeltaTime;
-        previousClubPosition = currentClubPosition;
+        // Manual velocity calculation for the golf club head
+        currentClubHeadPosition = clubHead.position;
+        clubHeadVelocity = (currentClubHeadPosition - previousClubHeadPosition) / Time.fixedDeltaTime;
+        previousClubHeadPosition = currentClubHeadPosition;
     }
 
     void RespawnGolfBall()
@@ -74,13 +73,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Golf ball respawned at position: " + respawnPosition);
     }
 
-    public Vector3 GetClubVelocity()
+    public Vector3 GetManualClubHeadVelocity()
     {
-        return golfClubRigidbody.velocity;
-    }
-
-    public Vector3 GetManualClubVelocity()
-    {
-        return this.clubVelocity;
+        return this.clubHeadVelocity;
     }
 }

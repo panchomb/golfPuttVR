@@ -141,15 +141,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2382047107391096272, guid: 4190b4305df6d4a4ea9f79c257aa0a3f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2382047107391096272, guid: 4190b4305df6d4a4ea9f79c257aa0a3f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2382047107391096272, guid: 4190b4305df6d4a4ea9f79c257aa0a3f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2382047107391096272, guid: 4190b4305df6d4a4ea9f79c257aa0a3f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -302,7 +302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4444551842611298218, guid: 1cacd37db68b03b4db52e458d462de33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 93
+      value: 94.039
       objectReference: {fileID: 0}
     - target: {fileID: 4444551842611298218, guid: 1cacd37db68b03b4db52e458d462de33, type: 3}
       propertyPath: m_LocalPosition.y
@@ -342,7 +342,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4444551842611298218, guid: 1cacd37db68b03b4db52e458d462de33, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1413775902}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3955823994700506384, guid: 1cacd37db68b03b4db52e458d462de33, type: 3}
       insertIndex: -1
@@ -493,6 +496,11 @@ MonoBehaviour:
   _movementProvider: {fileID: 0}
   _handAligment: 1
   _handGrabPoses: []
+--- !u!4 &841352584 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4444551842611298218, guid: 1cacd37db68b03b4db52e458d462de33, type: 3}
+  m_PrefabInstance: {fileID: 841352568}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &987195308
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,6 +749,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8574117430907930955, guid: b9ad9de08000b46d4a6e55cee0c3f970, type: 3}
   m_PrefabInstance: {fileID: 1150679315}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1413775901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1413775902}
+  m_Layer: 0
+  m_Name: ClubHead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1413775902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413775901}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.6878841, y: -0, z: -0, w: 0.7258206}
+  m_LocalPosition: {x: -0.25, y: -0.08, z: -10.39}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 841352584}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1485817859
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -925,6 +964,7 @@ MonoBehaviour:
   terrain: {fileID: 987195308}
   golfClub: {fileID: 841352569}
   golfBall: {fileID: 2023021382}
+  clubHead: {fileID: 1413775902}
 --- !u!4 &1929847380
 Transform:
   m_ObjectHideFlags: 0
