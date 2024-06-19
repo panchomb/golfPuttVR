@@ -237,7 +237,7 @@ public class GolfTerrainGenerator : MonoBehaviour
                 {
                     Vector3 flagPosition = new Vector3(randomPoint.x, 0, randomPoint.y);
                     flagPosition -= flagOffset;
-                    flagPosition.y = terrain.SampleHeight(flagPosition) + terrain.GetPosition().y;
+                    flagPosition.y = terrain.SampleHeight(flagPosition) + terrain.GetPosition().y + 0.4875f;
                     //Instantiate(flagPrefab, flagPosition, Quaternion.identity);
                     flagPrefab.transform.position = flagPosition;
                 }

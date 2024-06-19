@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody golfBallRigidbody;
     private Rigidbody golfClubRigidbody;
+    private Vector3 initialGolfBallPosition;
+    private GolfBallCollision golfBallCollisionScript;
+    private Vector3 currentClubPosition;
+    private Vector3 previousClubPosition;
+    private Vector3 clubVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -19,37 +24,63 @@ public class PlayerController : MonoBehaviour
         Vector3 terrainCenter = terrainComponent.terrainData.bounds.center;
         Vector3 worldCenterPosition = terrain.transform.position + terrainCenter;
 
-        float height = terrainComponent.SampleHeight(new Vector3(worldCenterPosition.x, worldCenterPosition.z));
-
-        ovrCameraRigInteractions.transform.position = new Vector3(worldCenterPosition.x + 0.5f, height + 0.2f, worldCenterPosition.z + 0.5f);
-        golfClub.transform.position = new Vector3(worldCenterPosition.x, height + 2.5f, worldCenterPosition.z);
+        float height = terrainComponent.SampleHeight(new Vector3(worldCenterPosition.x, worldCenterPosition.y, worldCenterPosition.z));
+        Debug.Log("[DEBUG] height is " + height);
+     
+        ovrCameraRigInteractions.transform.position = new Vector3(worldCenterPosition.x, height - 0.3f, worldCenterPosition.z);
+        golfClub.transform.position = new Vector3(worldCenterPosition.x, height + 5.5f, worldCenterPosition.z);
         golfBall.transform.position = new Vector3(worldCenterPosition.x, height + 1, worldCenterPosition.z);
 
         golfBallRigidbody = golfBall.GetComponent<Rigidbody>();
         golfClubRigidbody = golfClub.GetComponent<Rigidbody>();
+        initialGolfBallPosition = golfBall.transform.position;
 
+        // Get the GolfBallCollision script
+        golfBallCollisionScript = golfBall.GetComponent<GolfBallCollision>();
+
+        Debug.Log("Start method executed. Golf ball and club positions set.");
     }
 
-    void OnCollisionEnter(Collision collision)
+    void Update()
     {
-        Debug.Log("COLLISION ENTER");
-        if (collision.gameObject == golfClub)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Collision between ball and club");
-            Vector3 clubVelocity = golfClubRigidbody.velocity;
-            Debug.Log("Club velocity calculated");
-            float impulseMagnitude = clubVelocity.magnitude * 5000; // Calculate the impulse magnitude
-            Debug.Log("impulse magnitude calculated");
-            Vector3 impulse = clubVelocity.normalized * impulseMagnitude;
-            Debug.Log("Impulse magnitued: " +  impulse);
-
-            golfBallRigidbody.AddForce(impulse, ForceMode.Impulse);
+            RespawnGolfBall();
         }
     }
 
-    public void StartGame()
+    void FixedUpdate()
     {
-        golfBallRigidbody.isKinematic = false; // Enable physics
-        golfBallRigidbody.AddForce(Vector3.zero); // Ensure the ball starts static
+        // Manual velocity calculation for kinematic golf club
+        Vector3 currentClubPosition = golfClub.transform.position;
+        clubVelocity = (currentClubPosition - previousClubPosition) / Time.fixedDeltaTime;
+        previousClubPosition = currentClubPosition;
+    }
+
+    void RespawnGolfBall()
+    {
+        // Position the golf ball under the player's position on top of the terrain
+        Vector3 playerPosition = ovrCameraRigInteractions.transform.position;
+        Terrain terrainComponent = terrain.GetComponent<Terrain>();
+        float terrainHeight = terrainComponent.SampleHeight(new Vector3(playerPosition.x, playerPosition.z));
+        Vector3 respawnPosition = new Vector3(playerPosition.x, terrainHeight + 2.0f, playerPosition.z);
+
+        // Move the golf ball to the new position
+        golfBall.transform.position = respawnPosition;
+
+        // Reset the hasCollided flag in the GolfBallCollision script
+        golfBallCollisionScript.ResetCollisionFlag();
+
+        Debug.Log("Golf ball respawned at position: " + respawnPosition);
+    }
+
+    public Vector3 GetClubVelocity()
+    {
+        return golfClubRigidbody.velocity;
+    }
+
+    public Vector3 GetManualClubVelocity()
+    {
+        return this.clubVelocity;
     }
 }
