@@ -36,6 +36,10 @@ public class GolfBallCollision : MonoBehaviour
 
             hasCollided = true;
         }
+        if (collision.gameObject.CompareTag("Hole")
+        {
+            playerController.BallInHole();
+        }
     }
 
     public void ResetCollisionFlag()

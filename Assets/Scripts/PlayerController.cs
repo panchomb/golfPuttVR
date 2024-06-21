@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public GameObject ovrCameraRigInteractions;
     public GameObject terrain;
     public GameObject golfClub;
-    public GameObject golfBall;
+    public GameObject golfBallPrefab;
     public Transform clubHead; // Reference to the ClubHead empty GameObject
 
     private Rigidbody golfBallRigidbody;
@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 currentClubHeadPosition;
     private Vector3 previousClubHeadPosition;
     private Vector3 clubHeadVelocity;
+
+    private GameObject golfBallInstance:
+
+    private int score = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -28,14 +32,18 @@ public class PlayerController : MonoBehaviour
         Debug.Log("[DEBUG] height is " + height);
 
         ovrCameraRigInteractions.transform.position = new Vector3(worldCenterPosition.x, height - 0.3f, worldCenterPosition.z);
-        golfClub.transform.position = new Vector3(worldCenterPosition.x, height + 5.5f, worldCenterPosition.z);
-        golfBall.transform.position = new Vector3(worldCenterPosition.x, height + 1, worldCenterPosition.z);
+        golfClub.transform.position = new Vector3(worldCenterPosition.x, height + 10.5f, worldCenterPosition.z);
+        //golfBall.transform.position = new Vector3(worldCenterPosition.x, height + 1, worldCenterPosition.z);
+        //golfBallRigidbody = golfBall.GetComponent<Rigidbody>();
+        //initialGolfBallPosition = golfBall.transform.position;
 
-        golfBallRigidbody = golfBall.GetComponent<Rigidbody>();
-        initialGolfBallPosition = golfBall.transform.position;
+        // Instantiate the golf ball as a new object
+        golfBallInstance = Instantiate(golfBallPrefab, new Vector3(worldCenterPosition.x, height + 1, worldCenterPosition.z), Quaternion.identity);
+        golfBallRigidbody = golfBallInstance.GetComponent<Rigidbody>();
+        initialGolfBallPosition = golfBallInstance.transform.position;
 
         // Get the GolfBallCollision script
-        golfBallCollisionScript = golfBall.GetComponent<GolfBallCollision>();
+        golfBallCollisionScript = golfBallInstance.GetComponent<GolfBallCollision>();
 
         Debug.Log("Start method executed. Golf ball and club positions set.");
     }
@@ -58,19 +66,31 @@ public class PlayerController : MonoBehaviour
 
     void RespawnGolfBall()
     {
+        // Destroy the existing golf ball
+        Destroy(golfBallInstance);
+
         // Position the golf ball under the player's position on top of the terrain
         Vector3 playerPosition = ovrCameraRigInteractions.transform.position;
         Terrain terrainComponent = terrain.GetComponent<Terrain>();
         float terrainHeight = terrainComponent.SampleHeight(new Vector3(playerPosition.x, playerPosition.z));
         Vector3 respawnPosition = new Vector3(playerPosition.x, terrainHeight + 2.0f, playerPosition.z);
 
-        // Move the golf ball to the new position
-        golfBall.transform.position = respawnPosition;
+        // Instantiate a new golf ball at the respawn position
+        golfBallInstance = Instantiate(golfBallPrefab, respawnPosition, Quaternion.identity);
+        golfBallRigidbody = golfBallInstance.GetComponent<Rigidbody>();
+
+        // Get the GolfBallCollision script for the new instance
+        golfBallCollisionScript = golfBallInstance.GetComponent<GolfBallCollision>();
 
         // Reset the hasCollided flag in the GolfBallCollision script
         golfBallCollisionScript.ResetCollisionFlag();
 
         Debug.Log("Golf ball respawned at position: " + respawnPosition);
+    }
+
+    public void BallInHole()
+    {
+        this.score += 1;
     }
 
     public Vector3 GetManualClubHeadVelocity()
