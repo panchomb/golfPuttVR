@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 previousClubHeadPosition;
     private Vector3 clubHeadVelocity;
 
-    private GameObject golfBallInstance:
+    private GameObject golfBallInstance;
 
     private int score = 0;
 

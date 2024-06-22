@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - GolfClub
+  - Hole
   layers:
   - Default
   - TransparentFX

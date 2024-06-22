@@ -10,6 +10,8 @@ public class TerrainBackdropGenerator : MonoBehaviour
     public int treeDensity = 1000; // Number of trees to place
     public float treeDistance = 50f; // Distance from the wall where trees start
     public float treeAreaWidth = 100f; // Width of the tree area
+    public float minTreeScale = 0.5f; // Minimum scale for the trees
+    public float maxTreeScale = 2.0f; // Maximum scale for the trees
 
     void Start()
     {
@@ -68,36 +70,32 @@ public class TerrainBackdropGenerator : MonoBehaviour
 
             // Ensure trees are placed outside the main terrain area
             Vector3 worldPosition = new Vector3(x * terrainData.size.x, y * terrainData.size.y, z * terrainData.size.z) + terrain.transform.position;
-            if (worldPosition.x < mainTerrain.transform.position.x || 
-                worldPosition.x > mainTerrain.transform.position.x + mainTerrain.terrainData.size.x || 
-                worldPosition.z < mainTerrain.transform.position.z || 
+            if (worldPosition.x < mainTerrain.transform.position.x ||
+                worldPosition.x > mainTerrain.transform.position.x + mainTerrain.terrainData.size.x ||
+                worldPosition.z < mainTerrain.transform.position.z ||
                 worldPosition.z > mainTerrain.transform.position.z + mainTerrain.terrainData.size.z)
             {
                 // Randomly select a tree prefab
                 int randomIndex = Random.Range(0, treePrefabs.Length);
 
-                // Apply random rotation to the prefab before instantiating the tree
-                Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-                GameObject treeInstance = Instantiate(treePrefabs[randomIndex], Vector3.zero, randomRotation);
-                
-                // Create a TreeInstance
+                // Create a TreeInstance with random scale
+                float scale = Random.Range(minTreeScale, maxTreeScale);
+                float randomRotation = Random.Range(0f, 360f);
+
                 TreeInstance tree = new TreeInstance
                 {
                     position = new Vector3(x, y, z),
-                    widthScale = 2,
-                    heightScale = 2,
+                    widthScale = scale,
+                    heightScale = scale,
                     color = Color.white,
                     lightmapColor = Color.white,
                     prototypeIndex = randomIndex
                 };
 
                 // Set rotation using the prefab's transform
-                treeInstance.transform.rotation = randomRotation;
+                tree.rotation = randomRotation;
 
                 trees.Add(tree);
-
-                // Clean up the instantiated tree instance
-                Destroy(treeInstance);
             }
         }
 
