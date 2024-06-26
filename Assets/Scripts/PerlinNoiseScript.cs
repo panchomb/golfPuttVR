@@ -29,7 +29,7 @@ public class GolfTerrainGenerator : MonoBehaviour
 
     private float greenRadius;
     private Terrain terrain;
-    private Vector3 flagOffset = new Vector3((35.0f-26.078f), (4.95f-5.52f)-0.1f, (42.0f-40.71f));
+    private Vector3 flagOffset = new Vector3((35.0f-26.044f), (4.95f-5.52f)-0.1f, (42.0f-40.68f));
     private bool showHeightmap = false;
     private float[,,] greenAlphaMap;
     private float[,,] heightmapColorAlphaMap;
