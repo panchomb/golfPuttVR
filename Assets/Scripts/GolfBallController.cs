@@ -9,6 +9,7 @@ public class GolfBallController : MonoBehaviour
     public Vector3 ballScale = new Vector3(1.0f, 1.0f, 1.0f); // Scale of the ball
 
     public float minVelocity = 0.1f; // Minimum velocity to stop the ball
+    public float minAngularVelocity = 0.1f;
 
     private Terrain terrain;
     private GameObject golfBall;
@@ -26,10 +27,12 @@ public class GolfBallController : MonoBehaviour
     {
         if (rb != null)
         {
-            if (rb.velocity.magnitude < minVelocity)
+
+            if (rb.velocity.magnitude < minVelocity || rb.angularVelocity.magnitude < minAngularVelocity)
             {
-                rb.velocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
+                rb.isKinematic = false;
+                //rb.velocity = Vector3.zero;
+                //rb.angularVelocity = Vector3.zero;
             }
         }
     }

@@ -4,18 +4,38 @@ public class GolfBallCollision : MonoBehaviour
 {
     private PlayerController playerController;
     private Rigidbody golfBallRigidbody;
-    private bool hasCollided = false;
+    private GameUIManager gameUIManager; // Reference to the GameUIManager
+
+    private float collisionTimer = 0f;
+    private bool isTimerActive = false;
+    private const float respawnDelay = 2f;
 
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
         golfBallRigidbody = GetComponent<Rigidbody>();
+        gameUIManager = FindObjectOfType<GameUIManager>(); // Find the GameUIManager in the scene
+    }
+
+    void Update()
+    {
+        if (isTimerActive)
+        {
+            collisionTimer += Time.deltaTime;
+            if (collisionTimer >= respawnDelay)
+            {
+                isTimerActive = false;
+                collisionTimer = 0f;
+                playerController.RespawnGolfBall();
+            }
+        }
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("GolfClub"))
         {
+            golfBallRigidbody.isKinematic = false;
             Debug.Log("Collision between golf ball and golf club");
 
             // Get the calculated velocity from the PlayerController
@@ -34,17 +54,24 @@ public class GolfBallCollision : MonoBehaviour
             golfBallRigidbody.AddForce(new Vector3(impulse.x, 0, impulse.z), ForceMode.Impulse);
             Debug.Log("Impulse applied to golf ball");
 
-            hasCollided = true;
-        }
-        if (collision.gameObject.CompareTag("Hole"))
-        {
-            playerController.BallInHole();
-        }
-    }
+            // Update the shot number in the UI
+            if (gameUIManager != null)
+            {
+                gameUIManager.UpdateShotNumber();
+            }
 
-    public void ResetCollisionFlag()
-    {
-        hasCollided = false;
-        Debug.Log("Collision flag reset.");
+            // Start the timer for respawning the golf ball
+            isTimerActive = true;
+            collisionTimer = 0f;
+        }
+
+        if (collision.gameObject.CompareTag("BottomTerrain"))
+        {
+            Debug.Log("Ball in Hole");
+            if (gameUIManager != null)
+            {
+                gameUIManager.UpdateScore();
+            }
+        }
     }
 }

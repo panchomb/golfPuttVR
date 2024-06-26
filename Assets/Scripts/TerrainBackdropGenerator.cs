@@ -33,6 +33,7 @@ public class TerrainBackdropGenerator : MonoBehaviour
 
         GameObject backdropTerrainObject = Terrain.CreateTerrainGameObject(newTerrainData);
         Terrain backdropTerrain = backdropTerrainObject.GetComponent<Terrain>();
+        backdropTerrain.tag = "BottomTerrain";
 
         backdropTerrain.transform.position = new Vector3(
             mainTerrain.transform.position.x - treeAreaWidth,
