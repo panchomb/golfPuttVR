@@ -23,13 +23,13 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateShotNumber()
     {
-        shotNumber = shotNumber + 1;
+        shotNumber++;
         shotNumberText.text = "Tiro #: " + shotNumber;
     }
 
     public void UpdateScore()
     {
-        score = score + 1;
+        score++;
         scoreText.text = "Resultado: " + score;
     }
 
@@ -51,4 +51,14 @@ public class GameUIManager : MonoBehaviour
         timer = 0f;
         isTiming = true;
     }
+
+    public void ToggleTerrainTexture()
+    {
+        GolfTerrainGenerator terrainGenerator = FindObjectOfType<GolfTerrainGenerator>();
+        if (terrainGenerator != null)
+        {
+            terrainGenerator.ToggleHeightmap();
+        }
+    }
+
 }

@@ -85,6 +85,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public GameObject GetGolfBallInstance()
+    {
+        return golfBallInstance;
+    }
     void FixedUpdate()
     {
         // Manual velocity calculation for the golf club head
@@ -93,7 +97,7 @@ public class PlayerController : MonoBehaviour
         previousClubHeadPosition = currentClubHeadPosition;
     }
 
-    public void RespawnGolfBall()
+    public GameObject RespawnGolfBall()
     {
         // Instantiate a new golf ball at the respawn position
         golfBallInstance = Instantiate(golfBallPrefab, golfBallSpawnPosition, Quaternion.identity);
@@ -103,6 +107,7 @@ public class PlayerController : MonoBehaviour
         golfBallCollisionScript = golfBallInstance.GetComponent<GolfBallCollision>();
 
         Debug.Log("Golf ball respawned at position: " + golfBallSpawnPosition);
+        return golfBallInstance;
     }
 
     public void BallInHole()
@@ -137,7 +142,7 @@ public class PlayerController : MonoBehaviour
     {
         if (flagPrefab != null)
         {
-            return flagPrefab.transform.position + flagOffset;
+            return flagPrefab.transform.position;
         }
         else
         {
