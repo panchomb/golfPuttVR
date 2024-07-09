@@ -2368,7 +2368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainWidth: 25
   terrainHeight: 25
-  heightmapResolution: 257
+  heightmapResolution: 2049
   scale: 0.25
   offsetX: 100
   offsetY: 100
@@ -2381,7 +2381,7 @@ MonoBehaviour:
   perlinInfluence: 35
   pointPrefab: {fileID: 0}
   flagPrefab: {fileID: 1150679316}
-  desiredHoleRadius: 0.5
+  desiredHoleRadius: 0.21
   holeMargin: 15
   gradientTextureIntensity: 0.4
   red: {fileID: 8574412962073106934, guid: edc62d8eb3c0240fa9fb5a75635e235f, type: 2}
