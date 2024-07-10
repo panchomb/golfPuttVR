@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GolfBallCollision : MonoBehaviour
@@ -10,17 +11,20 @@ public class GolfBallCollision : MonoBehaviour
     private float collisionTimer = 0f;
     private bool isTimerActive = false;
     private const float respawnDelay = 3f;
+    private bool hasHitBall = false;
+    private Vector3 spawnBallPosition;
+    private Quaternion initRotation = Quaternion.Euler(0, 0, 0);
 
     // Audio sources for the collision sounds
     public AudioSource golfHitAudioSource;
     public AudioSource ballInHoleAudioSource;
-
 
     void Start()
     {
         playerController = FindObjectOfType<PlayerController>();
         golfBallRigidbody = GetComponent<Rigidbody>();
         gameUIManager = FindObjectOfType<GameUIManager>(); // Find the GameUIManager in the scene
+        spawnBallPosition = playerController.GetSpawnBallPosition();
 
         // Ensure the audio sources are assigned
         if (golfHitAudioSource == null || ballInHoleAudioSource == null)
@@ -33,6 +37,12 @@ public class GolfBallCollision : MonoBehaviour
 
     void Update()
     {
+        if (!hasHitBall)
+        {
+            lastGolfBallInstance.transform.position = spawnBallPosition;
+            lastGolfBallInstance.transform.rotation = initRotation;
+        }
+
         if (isTimerActive)
         {
             collisionTimer += Time.deltaTime;
@@ -52,24 +62,21 @@ public class GolfBallCollision : MonoBehaviour
         if (gameObject != lastGolfBallInstance) { return; }
         if (collision.gameObject.CompareTag("GolfClub"))
         {
+            hasHitBall = true;
             golfBallRigidbody.isKinematic = false;
-            Debug.Log("Collision between golf ball and golf club");
 
             // Get the calculated velocity from the PlayerController
             Vector3 clubHeadVelocity = playerController.GetManualClubHeadVelocity();
-            Debug.Log("Club head velocity at collision: " + clubHeadVelocity);
 
-            float scaleFactor = 0.5f;
+
+            float scaleFactor = 0.2f;
             Vector3 scaledVelocity = clubHeadVelocity * scaleFactor;
-            Debug.Log("Scaled club head velocity: " + scaledVelocity);
+
 
             float impulseMagnitude = scaledVelocity.magnitude * 1; // Calculate the impulse magnitude
-            Debug.Log("Impulse magnitude: " + impulseMagnitude);
             Vector3 impulse = scaledVelocity.normalized * impulseMagnitude;
-            Debug.Log("Impulse vector: " + impulse);
 
             golfBallRigidbody.AddForce(new Vector3(impulse.x, 0, impulse.z), ForceMode.Impulse);
-            Debug.Log("Impulse applied to golf ball");
 
             // Play the golf hit sound
             if (golfHitAudioSource != null)
@@ -90,7 +97,7 @@ public class GolfBallCollision : MonoBehaviour
             collisionTimer = 0f;
         }
 
-        if (collision.gameObject.CompareTag("BottomTerrain"))
+        if (collision.gameObject.CompareTag("Hole"))
         {
             Debug.Log("Ball in Hole");
 

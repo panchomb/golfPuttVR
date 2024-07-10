@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameUIManager : MonoBehaviour
@@ -60,5 +61,21 @@ public class GameUIManager : MonoBehaviour
             terrainGenerator.ToggleHeightmap();
         }
     }
+
+    public void RestartGame()
+    {
+        shotNumber = 1;
+        score = 0;
+        timer = 0f;
+        isTiming = true;
+
+        shotNumberText.text = "Tiro #: " + shotNumber;
+        scoreText.text = "Resultado: " + score;
+        UpdateTimerText();
+
+        // Reload the current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 
 }

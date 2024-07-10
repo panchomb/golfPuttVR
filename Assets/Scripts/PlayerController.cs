@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 previousClubHeadPosition;
     private Vector3 clubHeadVelocity;
     private Vector3 golfBallSpawnPosition;
+    private bool hasHitBall;
 
     private GameObject golfBallInstance;
 
@@ -37,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
         ovrCameraRigInteractions.transform.position = new Vector3(worldCenterPosition.x, height - 0.1f, worldCenterPosition.z);
         Vector3 holePosition = FindHolePosition();
-        
+
         Vector3 holeMinusPlayer = holePosition - ovrCameraRigInteractions.transform.position;
         Vector3 holeDirection = holeMinusPlayer / holeMinusPlayer.magnitude;
 
@@ -58,7 +59,9 @@ public class PlayerController : MonoBehaviour
         ovrCameraRigInteractions.transform.position -= newPlayerForward * distanceFromBall;
 
 
-        golfClub.transform.position = new Vector3(ovrCameraRigInteractions.transform.position.x, height + 10.5f, ovrCameraRigInteractions.transform.position.z);
+        golfClub.transform.position = new Vector3(ovrCameraRigInteractions.transform.position.x, height + 0.5f, ovrCameraRigInteractions.transform.position.z);
+        Rigidbody golfClubRB = golfClub.GetComponent<Rigidbody>();
+        // golfClubRB.isKinematic = true;
         //golfBall.transform.position = new Vector3(worldCenterPosition.x, height + 1, worldCenterPosition.z);
         //golfBallRigidbody = golfBall.GetComponent<Rigidbody>();
         //initialGolfBallPosition = golfBall.transform.position;
@@ -70,6 +73,8 @@ public class PlayerController : MonoBehaviour
 
         // Get the GolfBallCollision script
         golfBallCollisionScript = golfBallInstance.GetComponent<GolfBallCollision>();
+
+        hasHitBall = false;
 
         // Position the Canvas in front of the player
         PositionCanvasInFrontOfPlayer();
@@ -120,6 +125,10 @@ public class PlayerController : MonoBehaviour
         return this.clubHeadVelocity;
     }
 
+    public Vector3 GetSpawnBallPosition()
+    {
+        return golfBallSpawnPosition;
+    }
     private void PositionCanvasInFrontOfPlayer()
     {
         if (gameCanvas != null)
