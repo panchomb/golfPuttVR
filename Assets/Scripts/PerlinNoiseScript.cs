@@ -29,7 +29,7 @@ public class GolfTerrainGenerator : MonoBehaviour
 
     private float greenRadius;
     private Terrain terrain;
-    private Vector3 flagOffset = new Vector3((35.0f-26.078f), (4.95f-5.52f)-0.1f, (42.0f-40.71f));
+    private Vector3 flagOffset = new Vector3((35.0f-26.044f), (4.95f-5.52f)-0.1f, (42.0f-40.68f));
     private bool showHeightmap = false;
     private float[,,] greenAlphaMap;
     private float[,,] heightmapColorAlphaMap;
@@ -236,8 +236,7 @@ public class GolfTerrainGenerator : MonoBehaviour
                 if (flagPrefab != null)
                 {
                     Vector3 flagPosition = new Vector3(randomPoint.x, 0, randomPoint.y);
-                    flagPosition -= flagOffset;
-                    flagPosition.y = terrain.SampleHeight(flagPosition) + terrain.GetPosition().y;
+                    flagPosition.y = terrain.SampleHeight(flagPosition) + terrain.GetPosition().y - 0.36f;
                     //Instantiate(flagPrefab, flagPosition, Quaternion.identity);
                     flagPrefab.transform.position = flagPosition;
                 }
@@ -355,6 +354,20 @@ public class GolfTerrainGenerator : MonoBehaviour
             {
                 terrain.terrainData.SetAlphamaps(0, 0, greenAlphaMap);
             }
+        }
+    }
+
+
+    public void ToggleHeightmap()
+    {
+        showHeightmap = !showHeightmap;
+        if (showHeightmap)
+        {
+            terrain.terrainData.SetAlphamaps(0, 0, heightmapColorAlphaMap);
+        }
+        else
+        {
+            terrain.terrainData.SetAlphamaps(0, 0, greenAlphaMap);
         }
     }
 
